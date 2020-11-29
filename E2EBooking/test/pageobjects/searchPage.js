@@ -29,7 +29,7 @@ class SearchPage {
         wdioAction.click(this.inputDeparture);
         wdioAction.click(`span=${country}`);
         wdioAction.click(`span=${airport}`);
-        wdioAction.waitForVisibility(this.panelDestination);
+        wdioAction.waitForDisplayed(this.panelDestination, 10000);
     }
 
     setDestination(country, airport){
@@ -84,7 +84,7 @@ class SearchPage {
 
     setDepartureDate(date){
         wdioAction.click(this.inputDateFrom); 
-        wdioAction.waitForVisibility(this.panelDateFrom);
+        wdioAction.waitForDisplayed(this.panelDateFrom, 10000);
         this.completeDate(1, date);
     }
 

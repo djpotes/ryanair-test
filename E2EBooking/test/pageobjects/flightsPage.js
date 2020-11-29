@@ -5,11 +5,18 @@ class FlightsPage {
         this.buttonNextDate = `button[aria-label='Search next dates']`;
         this.buttonPreviewDate = `button[aria-label='Search previous dates']`;
         this.dateScroll = `div[class='carousel']`;
-        //this.listFlight = `flight-list`;
         this.listFlight = "div[class='card-info']";
-        
         this.tarifaValue = `div[data-e2e='fare-card--standard']`;
         this.linkLogLater = "div[class='login-touchpoint__chevron-container']";
+        this.buttonTitlePassanger = "button[class*='dropdown__toggle']";
+        this.titleListPassanger = "ry-dropdown-item";
+        this.buttonContinue = 'button=Continue';
+        //this.familiCityWarningButton = 'button=Okay, got it.';
+        //this.familiCityWarningButton = `//button[text()='Okay, got it.']`;
+        this.familiCityWarningButton = `//button[contains(@class,'seats-modal__cta ry-button--gradient-blue')]`
+        
+        
+        //
     };
 
     formatDate(date){
@@ -18,7 +25,7 @@ class FlightsPage {
 
     scrollDate(count, isDeparture){
         var scrollButton;
-        wdioAction.waitForVisibility(`button[aria-label='Search previous dates']`);
+        wdioAction.waitForDisplayed(`button[aria-label='Search previous dates']`, 10000);
         
         if(isDeparture){
             if(count>0){
@@ -63,17 +70,24 @@ class FlightsPage {
     }
 
     setTarifa(type){
-        wdioAction.waitForVisibility(this.tarifaValue);
+        wdioAction.waitForDisplayed(this.tarifaValue, 10000);
         if(type == "value"){
             wdioAction.click(this.tarifaValue);
         }
-        //browser.pause(1000);
+    }
+
+    clickContinueButton(){
+        wdioAction.click(this.buttonContinue);
+        wdioAction.waitForClickable(this.familiCityWarningButton, 20000);
+        wdioAction.click(this.familiCityWarningButton);
     }
 
     setPassangerDetails(passangers){
-        wdioAction.waitForVisibility(this.linkLogLater, 10000);
+        wdioAction.waitForDisplayed(this.linkLogLater, 10000);
         wdioAction.click(this.linkLogLater);
         for(var a=0; a<passangers.adults.length; a++){
+            $$(this.buttonTitlePassanger)[a].click();
+            $$(this.titleListPassanger)[0].click();
             $(`input[id='formState.passengers.ADT-${a}.name']`).addValue(passangers.adults[a].firstName);
             $(`input[id='formState.passengers.ADT-${a}.surname`).addValue(passangers.adults[a].lastName);
         }
@@ -81,8 +95,7 @@ class FlightsPage {
             $(`input[id='formState.passengers.CHD-${a}.name']`).addValue(passangers.children[a].firstName);
             $(`input[id='formState.passengers.CHD-${a}.surname']`).addValue(passangers.children[a].lastName);
         }
-        browser.pause(1000);
+        
     }
 }
-
 module.exports = new FlightsPage();

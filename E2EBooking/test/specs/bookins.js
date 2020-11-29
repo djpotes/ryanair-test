@@ -1,5 +1,7 @@
 const SearchPage = require("../pageobjects/searchPage");
 const FlightsPage = require("../pageobjects/FlightsPage");
+const ChooseSeatePage = require("../pageobjects/chooseSeatPage");
+const ShooseBagPage = require("../pageobjects/shooseBagPage");
 const config = require("../../config/config");
 
 describe('Create booking', () => {
@@ -42,5 +44,11 @@ describe('Create booking', () => {
         FlightsPage.setFlight("Return", "value");
         /* Set passanger details */
         FlightsPage.setPassangerDetails(passangers);
+        FlightsPage.clickContinueButton();
+        /* Select seats */
+        ChooseSeatePage.selectSeats(9);
+        ChooseSeatePage.clickContinueButton();
+        /* Select bag */
+        ShooseBagPage.selectOnlyOneBag();
     });
 });
