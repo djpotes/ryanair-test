@@ -1,6 +1,6 @@
 const wdioAction = require('Utils').wdioAction;
 
-class BookingPage {
+class SearchPage {
     constructor(){
         this.buttonUsingCookies = "[class=cookie-popup-with-overlay__button]";
         this.inputDeparture = "#input-button__departure";
@@ -13,11 +13,16 @@ class BookingPage {
         this.iconShowMoreMonths = `//div[contains(@class, 'm-toggle__button')]`;
         this.months = ["Jan", "Feb", "March", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
         this.buttonAddPassanger = "[class=counter__button-wrapper--enabled]";  
-        this.buttonDonePassanger = "button=Done"
+        this.buttonDonePassanger = "button=Done";
+        this.buttonSearch = `button[data-ref=flight-search-widget__cta]`;
     };
 
     agreeUsingCookies(){
         wdioAction.click(this.buttonUsingCookies);
+    }
+
+    clickSearch(){
+        wdioAction.click(this.buttonSearch);
     }
 
     setDeparture(country, airport){
@@ -33,11 +38,10 @@ class BookingPage {
         wdioAction.click(`span=${airport}`); 
     }
 
-    setPassangers(adults, child){
-        this.addAdult(adults-1);
-        this.addChild(child);
+    setPassangers(passangers){
+        this.addAdult(passangers.adults.length-1);
+        this.addChild(passangers.children.length);
         wdioAction.click(this.buttonDonePassanger);
-        browser.pause(4000)
     }
 
     formatDate(date){
@@ -93,4 +97,4 @@ class BookingPage {
     };
 }
 
-module.exports = new BookingPage();
+module.exports = new SearchPage();

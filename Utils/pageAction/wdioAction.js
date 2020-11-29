@@ -15,9 +15,17 @@ class wdioAction {
         }
     }
 
-    static waitForVisibility(webElement) {
+    static waitForVisibility(webElement, time) {
         try {
-            $(webElement).waitForDisplayed(2000);
+            $(webElement).waitForDisplayed(time?time:2000);
+        } catch (e) {
+            throw new Error(e);
+        }
+    }
+
+    static waitForClickable(webElement, time) {
+        try {
+            $(webElement).waitForClickable(time?time:2000);
         } catch (e) {
             throw new Error(e);
         }
